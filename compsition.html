@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Document</title>
+  </head>
+  <body class="h-screen">
+    <header>
+      <div
+        class="flex justify-between bg-slate-700 color text-white items-center p-[20px]"
+      >
+        <div class="flex w-20 h-20px">
+          <div class="logo">
+            <img src="images/image_ec4fb5e3.jpg" alt="logo" />
+          </div>
+          <p>TACHKILA</p>
+        </div>
+        <div>
+          <ul class="flex bg-slate-800 p-[10px] gap-[10px] rounded-[10px]">
+            <li class="px-4 py-2 [&.active]:bg-green-600 [&.active]:text-white">
+              <a href="index.html"> Effectifs </a>
+            </li>
+            <li
+              class="px-4 py-2 [&.active]:bg-green-600 [&.active]:text-white active"
+            >
+              <a href="compsition.html"> Composition </a>
+            </li>
+            <li class="px-4 py-2 [&.active]:bg-green-600 [&.active]:text-white">
+              <a href="matchs.html"> Matchs </a>
+            </li>
+          </ul>
+        </div>
+        <div class="team-info flex gap-5">
+          <div class="team1 text-yellow-300">GB</div>
+          <div class="team2 text-blue-700">DEF</div>
+          <div class="team3 text-green-300">MIL</div>
+          <div class="team4 text-orange-500">ATT</div>
+        </div>
+      </div>
+    </header>
+    <main class="flex h-full relative">
+      <!-- Aside bar -->
+      <aside class="flex flex-col gap-3 bg-slate-600">
+        <div class="selective flex flex-wrap justify-between gap-1">
+          <button
+            id="btnOpenModal"
+            class="add-new-player bg-lime-500 p-1.5 text-white rounded-md mt-2 w-full"
+          >
+            + Ajouter un joueur
+          </button>
+          <p class="text-white">Effectif</p>
+          <div class="number-Of-players text-white">1 joueur(s)</div>
+        </div>
+
+        <div class="text font-medium mt-2 text-white">
+          cliquer sur un joueur placé pour voir sa case sur le terrain.pour
+          modifie, pour supprimer.
+        </div>
+
+        <div class="players-list mt-3">
+          <!-- player info -->
+          <!-- <div class="player flex justify-between border-2">
+            <div
+              class="player-number p-1 border-2 rounded-[50%] text-orange-600"
+            >
+              1
+            </div>
+            <div class="player-name">bono</div>
+            <div class="player-position text-orange-600">gardien</div>
+            <div class="actions flex items-center">
+              <button class="edit">edit</button>
+              <button class="delete">delete</button>
+            </div>
+
+            <div class="benches mt-2">
+              <select name="w-full border rounded p-2 player-selection ">
+                <option value="1">player 1</option>
+                <option value="2">player 2</option>
+                <option value="3">player 3</option>
+              </select>
+            </div>
+          </div> -->
+        </div>
+      </aside>
+
+      <!-- fields section -->
+      <section class="main w-full m-auto flex justify-center bg-gray-500">
+        <div class="fields justify-center w-fit gap-2">
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div
+            class="2 field bg-blue-700 rounded-sm col-span-2 text-white text-center flex justify-center flex-col items-center"
+          >
+            DG
+          </div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div
+            class="6 field bg-green-700 rounded-sm col-span-2 text-center text-white flex justify-center flex-col items-center"
+          >
+            MG
+          </div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div
+            class="10 field bg-red-700 rounded-sm col-span-2 text-white text-center flex justify-center flex-col items-center"
+          >
+            BU
+          </div>
+          <div
+            class="1 field bg-orange-700 rounded-sm col-span-2 row-span-3 text-white text-center flex justify-center flex-col items-center"
+          >
+            GB
+          </div>
+          <div
+            class="3 field bg-blue-700 rounded-sm col-span-2 text-white text-center flex justify-center flex-col items-center"
+          >
+            DC
+          </div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div
+            class="7 field bg-green-700 rounded-sm col-span-2 text-white text-center flex justify-center flex-col items-center"
+          >
+            MC
+          </div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div
+            class="4 field rounded-sm bg-blue-700 rounded-sm col-span-2 text-center text-white flex justify-center flex-col items-center"
+          >
+            DC
+          </div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div
+            class="8 field bg-green-700 rounded-sm col-span-2 text-white text-center flex justify-center flex-col items-center"
+          >
+            MC
+          </div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div
+            class="11 field bg-red-700 col-span-2 rounded-sm text-white text-center flex justify-center flex-col items-center"
+          >
+            BU
+          </div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div
+            class="5 field bg-blue-700 col-span-2 text-center text-white rounded-sm flex justify-center flex-col items-center"
+          >
+            DD
+          </div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div
+            class="9 field bg-green-700 rounded-sm col-span-2 text-center text-white flex justify-center flex-col items-center"
+          >
+            MG
+          </div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+          <div class="field bg-slate-700 rounded-sm"></div>
+        </div>
+      </section>
+
+      <!-- player modal -->
+      <div class="cardParent hidden bg-black/60 absolute w-[100%] h-[100%]">
+        <div
+          class="addEditPlayerCard flex flex-col gap-[20px] absolute top-[calc(50%-140px)] left-[calc(50%-150px)] bg-gray-500 text-white w-[250px]"
+        >
+          <form id="form">
+            <div class="row1 flex justify-between">
+              <div class="title font-medium">Aouter un joueur</div>
+              <button type="button" class="close text-slate-900">x</button>
+            </div>
+            <div class="row2 flex flex-col">
+              <!-- full name -->
+              <label for="playerName" class="text-xs">Nom Complete</label>
+              <input
+                class="text-black"
+                type="text"
+                id="playerName"
+                name="playerName"
+                placeholder="Ex. ayoub mansouri"
+              />
+              <label class="nameErrLabel hidden text-red-500 hiddden"
+                >no special characters or numbers</label
+              >
+            </div>
+            <div class="postes">
+              <p class="w-[100%]">poste</p>
+              <!-- inputs choices -->
+              <div class="flex justify-center">
+                <!-- gardien -->
+                <div
+                  class="flex gap-1 w-[50%] border rounded-md p-1 has-[:checked]:border-orange-500"
+                >
+                  <input
+                    name="postes"
+                    checked
+                    id="gardien"
+                    type="radio"
+                    value="gardien"
+                    class="poste appearance-none rounded-md before:content-[''] before:bg-orange-500 before:rounded-[50%] before:inline-block before:w-[6px] before:h-[6px] before:top-[50%]"
+                  />
+                  <label for="gardien">Gardien</label>
+                </div>
+                <!-- defender -->
+                <div
+                  class="flex gap-1 w-[50%] border rounded-md p-2 has-[:checked]:border-blue-500"
+                >
+                  <input
+                    name="postes"
+                    id="defender"
+                    type="radio"
+                    value="defender"
+                    class="poste appearance-none rounded-md before:content-[''] before:bg-blue-500 before:rounded-[50%] before:inline-block before:w-[6px] before:h-[6px] before:top-[50%]"
+                  />
+                  <label for="defender">Défenseur</label>
+                </div>
+              </div>
+              <div class="flex justify-center">
+                <!-- medium -->
+                <div
+                  class="flex gap-1 w-[50%] border rounded-md p-2 has-[:checked]:border-green-500"
+                >
+                  <input
+                    name="postes"
+                    id="medium"
+                    type="radio"
+                    value="medium"
+                    class="poste appearance-none rounded-md before:content-[''] before:bg-green-500 before:rounded-[50%] before:inline-block before:w-[6px] before:h-[6px] before:top-[50%]"
+                  />
+                  <label for="medium">Milleu</label>
+                </div>
+                <!-- attacker -->
+                <div
+                  class="flex gap-1 w-[50%] border rounded-md p-2 has-[:checked]:border-red-500"
+                >
+                  <input
+                    name="postes"
+                    id="attacker"
+                    type="radio"
+                    value="attacker"
+                    class="poste appearance-none rounded-md before:content-[''] before:bg-red-500 before:rounded-[50%] before:inline-block before:w-[6px] before:h-[6px] before:top-[50%]"
+                  />
+                  <label for="attacker">Attaquant</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row3 flex flex-col">
+              <label for="playerNumber">Numéro (1 a 99):</label>
+              <input
+                type="number"
+                class="text-black"
+                id="playerNumber"
+                name="playerNumber"
+                placeholder="Ex. 7"
+              />
+              <label class="playerErrLabel hidden text-red-500 hiddden"
+                >Number must be between 1 and 99, and not taken by another
+                player</label
+              >
+              <label class="slotNotEmptyError hidden text-red-500 hiddden"
+                >All slots in that position are not empty</label
+              >
+            </div>
+            <div class="actionButtons p-2 flex justify-end gap-[10px]">
+              <button type="submit" class="add p-1 bg-green-500 rounded-md">
+                Ajouter
+              </button>
+              <button type="button" class="cancel p-1 bg-gray-900 rounded-md">
+                Annuler
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="general-notification"></div>
+    </main>
+    <script src="js/composition.js"></script>
+  </body>
+</html>

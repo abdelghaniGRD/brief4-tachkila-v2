@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div
+        class="flex justify-between bg-slate-700 color text-white items-center p-[20px]"
+      >
+        <div class="flex w-20 h-20px">
+          <div class="logo">
+            <img src="images/image_ec4fb5e3.jpg" alt="logo" />
+          </div>
+          <p>TACHKILA</p>
+        </div>
+        <div>
+          <ul class="flex bg-slate-800 p-[10px] gap-[10px] rounded-[10px]">
+            <li class="px-4 py-2 [&.active]:bg-green-600 [&.active]:text-white">
+              <a href="index.html"> Effectifs </a>
+            </li>
+            <li class="px-4 py-2 [&.active]:bg-green-600 [&.active]:text-white">
+              <a href="compsition.html"> Composition </a>
+            </li>
+            <li
+              class="px-4 py-2 text-gray-700 [&.active]:bg-green-600 [&.active]:text-white active"
+            >
+              <a href="matchs.html"> Matchs </a>
+            </li>
+          </ul>
+        </div>
+        <div class="team-info flex gap-5">
+          <div class="team1 text-yellow-300">GB</div>
+          <div class="team2 text-blue-700">DEF</div>
+          <div class="team3 text-green-300">MIL</div>
+          <div class="team4 text-orange-500">ATT</div>
+        </div>
+      </div>
+    </header>
+    <script src="js/matchs.js"></script>
+  </body>
+</html>
