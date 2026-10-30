@@ -1,4 +1,4 @@
-const benches = [
+export const benches = [
   { id: 0, name: "sur le banc" },
   { id: 1, name: "GB - Gardien" },
   { id: 2, name: "DG - Défenseur gauche" },
@@ -21,8 +21,8 @@ const positions = {
 };
 
 export const playerStatus = Object.freeze({
-  Healthy: { value: "healthy", lable: "En forme" },
-  Inured: { value: "injured", lable: "Blessé" },
+  Healthy: { value: "healthy", label: "En forme" },
+  Injured: { value: "injured", label: "Blessé" },
 });
 let players = getPlayers();
 
@@ -48,6 +48,7 @@ export function deletePlayer(playerId) {
 
 //find if a slot in selected position is free
 export function isSlotFree(selectedPostValue) {
+  const arr = getPlayers();
   const slots = positions[selectedPostValue];
   const availableSlot = slots.find(
     (slotId) => !arr.some((p) => p.banch?.id === slotId)
@@ -64,16 +65,7 @@ export function isSlotFree(selectedPostValue) {
 export function addNewPlayer(player) {
   let p = players;
 
-  p.push({
-    id: crypto.randomUUID(),
-    name: player.playerName,
-    position: player.selectedPostVal,
-    playerNumber: player.playerNumber,
-    banch: {
-      id: player.banch.id,
-      name: `position ${player.banch.id}`,
-    },
-  });
+  p.push(player);
 
   savePlayers(p);
 }
@@ -106,4 +98,9 @@ export function editPlayer(player, samePosition) {
       }
     });
   }
+}
+
+export function getPlayerById(id) {
+  const p = players.find((p) => p.id === id);
+  return p;
 }

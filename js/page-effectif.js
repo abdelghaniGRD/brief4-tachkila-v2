@@ -1,16 +1,28 @@
-import { getPlayers, isSlotFree, playerStatus } from "./players.js";
+import {
+  getPlayers,
+  isSlotFree,
+  playerStatus,
+  addNewPlayer,
+  savePlayers,
+  benches,
+  getPlayerById,
+} from "./players.js";
 
 const list = document.querySelector("#playersUl");
-const playersParentDiv = document.querySelector("#players");
-const addNewPlayer = document.querySelector(".addNewPlayer");
+const playersParentDiv = document.querySelector("#playersList");
+const btnOpenPlayerModal = document.querySelector(".addNewPlayer");
 const modal = document.querySelector(".cardParent");
 const slotError = document.querySelector(".slotNotEmptyError");
+const addEditPlayerCard = document.querySelector(".addEditPlayerCard");
+
 let hasError = false;
 
 const Status = Object.freeze({
   addNewMode: 0,
   editMode: 1,
 });
+
+let currentStatus = Status.addNewMode;
 
 list.addEventListener("click", (e) => {
   const listItem = e.target.closest("li");
@@ -26,8 +38,9 @@ list.addEventListener("click", (e) => {
 });
 
 //open the modal window
-addNewPlayer.addEventListener("click", () => {
+btnOpenPlayerModal.addEventListener("click", () => {
   const modal = document.querySelector(".cardParent");
+  currentStatus = Status.addNewMode;
   modal.classList.remove("hidden");
   modal.classList.add("flex");
   loadModalInfo();
@@ -45,21 +58,62 @@ const btnAddNewPlayer = document
   .addEventListener("submit", (e) => {
     e.preventDefault();
     save();
-    console.log("submit hited");
   });
+
+//add edit and delete delegation to parent player div
+const playerParent = document.querySelector("#playersList");
+
+playerParent.addEventListener("click", (e) => {
+  //check if the clicked element is the edit button
+  const editButton = e.target.closest(".edit");
+  const deleteButton = e.target.closest(".delete");
+
+  if (editButton) {
+    if (editButton.closest(".player")) {
+      const playerDiv = editButton.closest(".player");
+      const playerId = playerDiv.dataset.id;
+      console.log(playerId);
+      editPlayer(playerId);
+    } else {
+    }
+  }
+
+  // if (e.target.classList.contains("edit")) {
+  //   //find the closest parent palyer div
+  //   const playerDiv = e.target.closest(".player");
+
+  //   //extract the id from data set
+  //   const playerId = playerDiv.dataset.id;
+
+  //   editPlayer(playerId);
+  // } else if (e.target.classList.contains("delete")) {
+  //   //find the closest parent palyer div
+  //   const playerDiv = e.target.closest(".player");
+
+  //   //extract the id from data set
+  //   const playerId = playerDiv.dataset.id;
+  //   deletePlayer(playerId);
+  // }
+});
 
 function loadModalInfo() {
   const selectPlayerStatus = document.querySelector(".selectPlayerStatus");
+  selectPlayerStatus.innerHTML = "";
   Object.values(playerStatus).forEach((status) => {
     const option = document.createElement("option");
+
     option.value = status.value;
     option.textContent = status.lable;
     selectPlayerStatus.append(option);
   });
+
+  selectPlayerStatus.value = "healthy";
 }
 
 function createPlayerTemplate(player) {
-  return `<div class="player p-[20px] border-black border-[1px] w-fit bg-slate-600"
+  return `<div data-id=${
+    player.id
+  } class="player p-[20px] border-black border-[1px] w-fit bg-slate-600"
         >
           <div
             class="information flex flex-wrap gap-[5px] justify-between items-center"
@@ -70,14 +124,20 @@ function createPlayerTemplate(player) {
               ${player.playerNumber}
             </p>
             <p class="name text-white font-medium">${player.name}</p>
-            <p class="position font-medium text-white">${player.position}</p>
-            <p class="age w-full text-gray-400">${player.age}</p>
+            <p class="position font-medium text-white">${
+              benches[player.banch.id].name
+            }</p>
+            <p class="age w-full text-gray-400">${player.age} ans</p>
           </div>
 
           <div 
             class="actionButtons flex justify-between items-center mt-[10px]"
           >
-            <p class="health text-white border-white p-[5px]"></p>
+            <p class="health text-white border-white p-[5px]">${
+              playerStatus[
+                player.status[0].toUpperCase() + player.status.slice(1)
+              ].label
+            }</p>
             <div
               class="actions flex justify-end items-center gap-[14px] text-white"
             >
@@ -129,9 +189,12 @@ function createPlayerTemplate(player) {
 }
 
 function loadPlayers() {
+  playersParentDiv.innerHTML = "";
+
   let players = getPlayers();
 
   if (players.length <= 0) return;
+
   players.forEach((player) => {
     const htmlString = createPlayerTemplate(player);
 
@@ -141,6 +204,7 @@ function loadPlayers() {
     playersParentDiv.append(template.content);
   });
 }
+
 //for handling modal close
 function handleModalClose() {
   const modal = document.querySelector(".cardParent");
@@ -154,13 +218,15 @@ function handleModalClose() {
 function save() {
   //player name
   const playerName = document.querySelector("#playerName").value;
-
+  const playerHealthSelect = document.querySelector("#selectPlayerStatus");
   //player poste
   const selectedPost = document.querySelector('input[name="postes"]:checked');
   const selectedPostVal = selectedPost.value;
 
   //selected player number
   const playerNumber = Number(document.querySelector("#playerNumber").value);
+
+  const playerAge = Number(document.querySelector("#playerAge").value);
 
   if (currentStatus === Status.addNewMode) {
     const availableSlot = isSlotFree(selectedPostVal);
@@ -170,36 +236,34 @@ function save() {
       slotError.classList.remove("hidden");
       return;
     }
-
-    arr.push({
+    let player = {
       id: crypto.randomUUID(),
       name: playerName,
       position: selectedPostVal,
       playerNumber: playerNumber,
+      age: playerAge,
+      captain: false,
+      status: playerHealthSelect.value,
       banch: {
         id: availableSlot,
         name: `position ${availableSlot}`,
       },
-    });
+    };
 
-    showPlayerOnField(arr[arr.length - 1]);
-    savePlayers();
+    addNewPlayer(player);
+    // savePlayers();
 
-    displayPlayers();
+    loadPlayers();
     handleModalClose();
   } else {
     const playerId = addEditPlayerCard.dataset.id;
-
     const player = getPlayerById(playerId);
-
-    //player has the same position so we dont need to check for available slots ...
+    // //player has the same position so we dont need to check for available slots ...
     if (selectedPostVal === player.position) {
       arr.forEach((player, index) => {
         if (player.id == playerId) {
           arr[index].name = playerName;
-
           arr[index].playerNumber = playerNumber;
-
           return;
         }
       });
@@ -210,21 +274,17 @@ function save() {
       const availableSlot = slots.find(
         (slotId) => !arr.some((p) => p.banch?.id === slotId)
       );
-
       if (!availableSlot || availableSlot === 0) {
         //there is no available slots
         slotError.classList.remove("hidden");
         return;
       }
-
       clearPlayerFromOldSlot(player);
-
       // look for the player and update the player info
       arr.forEach((player, index) => {
         if (player.id == playerId) {
           arr[index].name = playerName;
           arr[index].position = selectedPostVal;
-
           arr[index].playerNumber = playerNumber;
           arr[index].banch = {
             id: availableSlot,
@@ -235,11 +295,36 @@ function save() {
       });
       showPlayerOnField(player);
     }
-
     savePlayers();
     displayPlayers();
     handleModalClose();
   }
+}
+
+function editPlayer(id) {
+  currentStatus = Status.editMode;
+
+  //show the modal
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+
+  const modalTitle = document.querySelector(".title");
+  modalTitle.textContent = "Modifier le joueur";
+
+  //assign the id to the addedit player card
+  document.querySelector(".addEditPlayerCard").setAttribute("data-id", id);
+  const editButton = modal.querySelector(".add");
+  editButton.textContent = "editer";
+  const player = getPlayerById(id);
+
+  const playerName = modal.querySelector("#playerName");
+  playerName.value = player.name;
+
+  const playerNumber = modal.querySelector("#playerNumber");
+  playerNumber.value = player.playerNumber;
+
+  const selectedPost = document.querySelector(`#${player.position}`);
+  selectedPost.checked = true;
 }
 
 loadPlayers();

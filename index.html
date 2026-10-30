@@ -91,7 +91,7 @@
       </div>
       <div
         class="mt-[20px] bg-slate-700 flex p-[20px] flex-wrap gap-[20px]"
-        id="players"
+        id="playersList"
       >
         <div
           class="player p-[20px] border-black border-[1px] w-fit bg-slate-600"
@@ -264,7 +264,7 @@
               placeholder="Ex. 7"
             />
 
-            <label for="playerAge">Age:</label>
+            <label for="playerAge" class="mt-[10px]">Age:</label>
             <input
               type="number"
               class="text-black"
@@ -272,8 +272,11 @@
               name="playerAge"
               placeholder="Ex. 25"
             />
-
-            <select id="selectPlayerStatus" class="selectPlayerStatus"></select>
+            <p class="mt-[10px]">Status de joueur:</p>
+            <select
+              id="selectPlayerStatus"
+              class="selectPlayerStatus mt-[10px] text-black"
+            ></select>
             <label class="playerErrLabel hidden text-red-500 hiddden"
               >Number must be between 1 and 99, and not taken by another
               player</label
