@@ -6,6 +6,9 @@ import {
   savePlayers,
   benches,
   getPlayerById,
+  updatePlayer,
+  deletePlayer,
+  makePlayerCaptain,
 } from "./players.js";
 
 const list = document.querySelector("#playersUl");
@@ -14,7 +17,7 @@ const btnOpenPlayerModal = document.querySelector(".addNewPlayer");
 const modal = document.querySelector(".cardParent");
 const slotError = document.querySelector(".slotNotEmptyError");
 const addEditPlayerCard = document.querySelector(".addEditPlayerCard");
-
+const search = document.querySelector(".playersSearchInput");
 let hasError = false;
 
 const Status = Object.freeze({
@@ -26,14 +29,14 @@ let currentStatus = Status.addNewMode;
 
 list.addEventListener("click", (e) => {
   const listItem = e.target.closest("li");
-  console.log(listItem);
+
   if (listItem && list.contains(listItem)) {
     const currentActive = list.querySelector("li.active");
-
     if (currentActive) {
       currentActive.classList.remove("active");
     }
     listItem.classList.add("active");
+    console.log(list.querySelector("li.active").dataset.position);
   }
 });
 
@@ -67,15 +70,27 @@ playerParent.addEventListener("click", (e) => {
   //check if the clicked element is the edit button
   const editButton = e.target.closest(".edit");
   const deleteButton = e.target.closest(".delete");
+  const captainButton = e.target.closest(".captain");
 
   if (editButton) {
     if (editButton.closest(".player")) {
       const playerDiv = editButton.closest(".player");
       const playerId = playerDiv.dataset.id;
-      console.log(playerId);
+
       editPlayer(playerId);
-    } else {
     }
+  } else if (deleteButton) {
+    const playerDiv = deleteButton.closest(".player");
+    const playerId = playerDiv.dataset.id;
+
+    deletePlayer(playerId);
+    loadPlayers();
+  } else if (captainButton) {
+    const playerDiv = captainButton.closest(".player");
+    const playerId = playerDiv.dataset.id;
+
+    makePlayerCaptain(playerId);
+    loadPlayers();
   }
 
   // if (e.target.classList.contains("edit")) {
@@ -96,6 +111,9 @@ playerParent.addEventListener("click", (e) => {
   // }
 });
 
+search.addEventListener("input", (e) => {
+  console.log(list.value);
+});
 function loadModalInfo() {
   const selectPlayerStatus = document.querySelector(".selectPlayerStatus");
   selectPlayerStatus.innerHTML = "";
@@ -103,17 +121,17 @@ function loadModalInfo() {
     const option = document.createElement("option");
 
     option.value = status.value;
-    option.textContent = status.lable;
+    option.textContent = status.label;
     selectPlayerStatus.append(option);
   });
 
-  selectPlayerStatus.value = "healthy";
+  // selectPlayerStatus.value = "healthy";
 }
 
 function createPlayerTemplate(player) {
-  return `<div data-id=${
-    player.id
-  } class="player p-[20px] border-black border-[1px] w-fit bg-slate-600"
+  return `<div data-id=${player.id} class="player p-[20px] ${
+    player.captain ? "border-fuchsia-600" : "border-black"
+  } border-[3px] w-fit bg-slate-600"
         >
           <div
             class="information flex flex-wrap gap-[5px] justify-between items-center"
@@ -221,16 +239,15 @@ function save() {
   const playerHealthSelect = document.querySelector("#selectPlayerStatus");
   //player poste
   const selectedPost = document.querySelector('input[name="postes"]:checked');
-  const selectedPostVal = selectedPost.value;
 
   //selected player number
   const playerNumber = Number(document.querySelector("#playerNumber").value);
 
   const playerAge = Number(document.querySelector("#playerAge").value);
+  const selectplayerStatus = document.querySelector("#selectPlayerStatus");
+  const availableSlot = isSlotFree(selectedPost.value);
 
   if (currentStatus === Status.addNewMode) {
-    const availableSlot = isSlotFree(selectedPostVal);
-
     if (!availableSlot) {
       slotError.textContent = "All slots in that position are not empty";
       slotError.classList.remove("hidden");
@@ -239,7 +256,7 @@ function save() {
     let player = {
       id: crypto.randomUUID(),
       name: playerName,
-      position: selectedPostVal,
+      position: selectedPost.value,
       playerNumber: playerNumber,
       age: playerAge,
       captain: false,
@@ -256,52 +273,43 @@ function save() {
     loadPlayers();
     handleModalClose();
   } else {
+    let p;
+
     const playerId = addEditPlayerCard.dataset.id;
+
     const player = getPlayerById(playerId);
-    // //player has the same position so we dont need to check for available slots ...
-    if (selectedPostVal === player.position) {
-      arr.forEach((player, index) => {
-        if (player.id == playerId) {
-          arr[index].name = playerName;
-          arr[index].playerNumber = playerNumber;
-          return;
-        }
-      });
-      clearPlayerFromOldSlot(player);
-      showPlayerOnField(player);
-    } else {
+
+    if (!availableSlot) {
       //find if a slot in selected position is free
-      const availableSlot = slots.find(
-        (slotId) => !arr.some((p) => p.banch?.id === slotId)
-      );
-      if (!availableSlot || availableSlot === 0) {
-        //there is no available slots
-        slotError.classList.remove("hidden");
-        return;
-      }
-      clearPlayerFromOldSlot(player);
-      // look for the player and update the player info
-      arr.forEach((player, index) => {
-        if (player.id == playerId) {
-          arr[index].name = playerName;
-          arr[index].position = selectedPostVal;
-          arr[index].playerNumber = playerNumber;
-          arr[index].banch = {
-            id: availableSlot,
-            name: `position ${availableSlot}`,
-          };
-          return;
-        }
-      });
-      showPlayerOnField(player);
+      //there is no available slots
+
+      slotError.classList.remove("hidden");
+      return;
     }
-    savePlayers();
-    displayPlayers();
+
+    p = {
+      id: player.id,
+      age: playerAge,
+      captain: player.captain,
+      name: playerName,
+      playerNumber: playerNumber,
+      position: selectedPost.value,
+      status: selectplayerStatus.value,
+      banch: {
+        id: availableSlot,
+        name: `position ${availableSlot}`,
+      },
+    };
+    console.log(p);
+    updatePlayer(p);
     handleModalClose();
+    loadPlayers();
   }
 }
 
 function editPlayer(id) {
+  loadModalInfo();
+
   currentStatus = Status.editMode;
 
   //show the modal
@@ -314,6 +322,7 @@ function editPlayer(id) {
   //assign the id to the addedit player card
   document.querySelector(".addEditPlayerCard").setAttribute("data-id", id);
   const editButton = modal.querySelector(".add");
+
   editButton.textContent = "editer";
   const player = getPlayerById(id);
 
@@ -325,6 +334,12 @@ function editPlayer(id) {
 
   const selectedPost = document.querySelector(`#${player.position}`);
   selectedPost.checked = true;
+
+  const age = document.querySelector("#playerAge");
+  age.value = player.age;
+
+  let selectPlayerStatus = document.querySelector("#selectPlayerStatus");
+  selectPlayerStatus.value = player.status;
 }
 
 loadPlayers();

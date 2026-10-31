@@ -24,8 +24,6 @@ export const playerStatus = Object.freeze({
   Healthy: { value: "healthy", label: "En forme" },
   Injured: { value: "injured", label: "Blessé" },
 });
-let players = getPlayers();
-
 export function getPlayers() {
   const players = localStorage.getItem("tachkilaPlayers");
 
@@ -63,44 +61,46 @@ export function isSlotFree(selectedPostValue) {
 }
 
 export function addNewPlayer(player) {
-  let p = players;
-
-  p.push(player);
-
-  savePlayers(p);
+  const players = getPlayers();
+  players.push(player);
+  savePlayers(players);
 }
 
 export function doesPlayerHaveTheSameposition() {}
 
-export function editPlayer(player, samePosition) {
+export function updatePlayer(player) {
   let arr = getPlayers();
-  //player has the same position so we dont need to check for available slots ...
-  if (samePosition)
-    arr.forEach((p, index) => {
-      if (p.id == player.id) {
-        arr[index].name = player.name;
-        arr[index].playerNumber = player.playerNumber;
-      }
-      return;
-    });
-  else {
-    // look for the player and update the player info
-    arr.forEach((p, index) => {
-      if (p.id == player.id) {
-        arr[index].name = player.name;
-        arr[index].position = player.position;
 
-        arr[index].playerNumber = player.playerNumber;
-        arr[index].banch = {
-          id: player.banch.id,
-          name: `position ${player.banch.id}`,
-        };
-      }
-    });
-  }
+  // look for the player and update the player info
+  arr.forEach((p, index) => {
+    if (p.id == player.id) {
+      arr[index].name = player.name;
+      arr[index].position = player.position;
+      arr[index].age = player.age;
+      arr[index].captain = player.captain;
+      arr[index].status = player.status;
+      arr[index].playerNumber = player.playerNumber;
+      arr[index].banch = {
+        id: player.banch.id,
+        name: `position ${player.banch.id}`,
+      };
+    }
+  });
+  savePlayers(arr);
 }
 
 export function getPlayerById(id) {
-  const p = players.find((p) => p.id === id);
+  const p = getPlayers().find((p) => p.id === id);
   return p;
+}
+
+export function makePlayerCaptain(id) {
+  let arr = getPlayers();
+
+  arr.forEach((p) => {
+    if (p.id === id) p.captain = true;
+    else p.captain = false;
+  });
+
+  savePlayers(arr);
 }
