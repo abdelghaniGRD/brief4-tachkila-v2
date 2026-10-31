@@ -36,8 +36,9 @@ list.addEventListener("click", (e) => {
       currentActive.classList.remove("active");
     }
     listItem.classList.add("active");
-    console.log(list.querySelector("li.active").dataset.position);
   }
+
+  loadPlayers();
 });
 
 //open the modal window
@@ -112,8 +113,9 @@ playerParent.addEventListener("click", (e) => {
 });
 
 search.addEventListener("input", (e) => {
-  console.log(list.value);
+  loadPlayers();
 });
+
 function loadModalInfo() {
   const selectPlayerStatus = document.querySelector(".selectPlayerStatus");
   selectPlayerStatus.innerHTML = "";
@@ -208,8 +210,10 @@ function createPlayerTemplate(player) {
 
 function loadPlayers() {
   playersParentDiv.innerHTML = "";
+  const currentActive = list.querySelector("li.active");
+  const filterBy = currentActive.dataset.position;
 
-  let players = getPlayers();
+  let players = getPlayers(search.value, filterBy);
 
   if (players.length <= 0) return;
 

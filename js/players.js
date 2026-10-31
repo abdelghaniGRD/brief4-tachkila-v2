@@ -24,10 +24,26 @@ export const playerStatus = Object.freeze({
   Healthy: { value: "healthy", label: "En forme" },
   Injured: { value: "injured", label: "Blessé" },
 });
-export function getPlayers() {
+
+export function getPlayers(search = "", filterBy = "all") {
   const players = localStorage.getItem("tachkilaPlayers");
 
-  return players ? JSON.parse(players) : [];
+  if (players) {
+    let rs = JSON.parse(players);
+    if (filterBy === "all") {
+      let filtered = rs.filter((p) => p.name.includes(search));
+
+      return filtered;
+    } else {
+      let filtered = rs.filter(
+        (p) => p.position === filterBy && p.name.includes(search)
+      );
+      return filtered;
+    }
+    // rs.filter(player=>player.position===)
+  } else {
+    return [];
+  }
 }
 
 export function savePlayers(arr) {
@@ -35,7 +51,7 @@ export function savePlayers(arr) {
 }
 
 export function deletePlayer(playerId) {
-  const pla = getPlayers();
+  const pla = getPlayers("", "all");
 
   const index = pla.findIndex((p) => p.id === playerId);
 
@@ -46,7 +62,7 @@ export function deletePlayer(playerId) {
 
 //find if a slot in selected position is free
 export function isSlotFree(selectedPostValue) {
-  const arr = getPlayers();
+  const arr = getPlayers("", "all");
   const slots = positions[selectedPostValue];
   const availableSlot = slots.find(
     (slotId) => !arr.some((p) => p.banch?.id === slotId)
@@ -61,7 +77,7 @@ export function isSlotFree(selectedPostValue) {
 }
 
 export function addNewPlayer(player) {
-  const players = getPlayers();
+  const players = getPlayers("", "all");
   players.push(player);
   savePlayers(players);
 }
@@ -69,7 +85,7 @@ export function addNewPlayer(player) {
 export function doesPlayerHaveTheSameposition() {}
 
 export function updatePlayer(player) {
-  let arr = getPlayers();
+  let arr = getPlayers("", "all");
 
   // look for the player and update the player info
   arr.forEach((p, index) => {
@@ -90,12 +106,13 @@ export function updatePlayer(player) {
 }
 
 export function getPlayerById(id) {
-  const p = getPlayers().find((p) => p.id === id);
+  const p = getPlayers("", "all").find((p) => p.id === id);
   return p;
 }
 
 export function makePlayerCaptain(id) {
-  let arr = getPlayers();
+  let arr = getPlayers("", "all");
+  console.log(arr);
 
   arr.forEach((p) => {
     if (p.id === id) p.captain = true;
