@@ -11,13 +11,26 @@ import {
   makePlayerCaptain,
 } from "./players.js";
 
+import {
+  nameValidation,
+  numberValidation,
+  playerAgeValidation,
+} from "./validation.js";
+
 const list = document.querySelector("#playersUl");
 const playersParentDiv = document.querySelector("#playersList");
 const btnOpenPlayerModal = document.querySelector(".addNewPlayer");
 const modal = document.querySelector(".cardParent");
 const slotError = document.querySelector(".slotNotEmptyError");
+const nameError = document.querySelector(".nameErrLabel");
+const numberError = document.querySelector(".numberErrLabel");
+const ageError = document.querySelector(".ageErrLabel");
 const addEditPlayerCard = document.querySelector(".addEditPlayerCard");
 const search = document.querySelector(".playersSearchInput");
+const playerName = document.querySelector("#playerName");
+const playerNumber = document.querySelector("#playerNumber");
+const playerAge = document.querySelector("#playerAge");
+
 let hasError = false;
 
 const Status = Object.freeze({
@@ -114,6 +127,49 @@ playerParent.addEventListener("click", (e) => {
 
 search.addEventListener("input", (e) => {
   loadPlayers();
+});
+
+playerName.addEventListener("input", () => {
+  if (!nameValidation(playerName.value)) {
+    hasError = true;
+    nameError.classList.remove("hidden");
+    nameError.classList.add("block");
+    document.querySelector(".add").disabled = true;
+  } else {
+    hasError = false;
+    nameError.classList.remove("block");
+    nameError.classList.add("hidden");
+    document.querySelector(".add").disabled = false;
+  }
+});
+
+playerNumber.addEventListener("input", () => {
+  if (!numberValidation(playerNumber.value)) {
+    hasError = true;
+    numberError.classList.remove("hidden");
+    numberError.classList.add("block");
+    document.querySelector(".add").disabled = true;
+  } else {
+    hasError = false;
+    numberError.classList.remove("block");
+    numberError.classList.add("hidden");
+    document.querySelector(".add").disabled = false;
+  }
+});
+
+playerAge.addEventListener("input", () => {
+  console.log("hello");
+  if (!playerAgeValidation(playerAge.value)) {
+    hasError = true;
+    ageError.classList.remove("hidden");
+    ageError.classList.add("block");
+    document.querySelector(".add").disabled = true;
+  } else {
+    hasError = false;
+    ageError.classList.remove("block");
+    ageError.classList.add("hidden");
+    document.querySelector(".add").disabled = false;
+  }
 });
 
 function loadModalInfo() {
@@ -240,6 +296,7 @@ function handleModalClose() {
 function save() {
   //player name
   const playerName = document.querySelector("#playerName").value;
+
   const playerHealthSelect = document.querySelector("#selectPlayerStatus");
   //player poste
   const selectedPost = document.querySelector('input[name="postes"]:checked');
@@ -248,7 +305,9 @@ function save() {
   const playerNumber = Number(document.querySelector("#playerNumber").value);
 
   const playerAge = Number(document.querySelector("#playerAge").value);
+
   const selectplayerStatus = document.querySelector("#selectPlayerStatus");
+
   const availableSlot = isSlotFree(selectedPost.value);
 
   if (currentStatus === Status.addNewMode) {

@@ -268,6 +268,10 @@
               name="playerNumber"
               placeholder="Ex. 7"
             />
+            <label class="numberErrLabel hidden text-red-500 hiddden"
+              >number must be between 1 and 99 and not taken by another
+              player</label
+            >
 
             <label for="playerAge" class="mt-[10px]">Age:</label>
             <input
@@ -277,6 +281,10 @@
               name="playerAge"
               placeholder="Ex. 25"
             />
+
+            <label class="ageErrLabel hidden text-red-500 hiddden"
+              >age must be between 18 and 35</label
+            >
             <p class="mt-[10px]">Status de joueur:</p>
             <select
               id="selectPlayerStatus"
@@ -303,5 +311,6 @@
     </div>
     <script type="module" src="js/page-effectif.js"></script>
     <script type="module" src="js/players.js"></script>
+    <script type="module" src="js/validation.js"></script>
   </body>
 </html>
