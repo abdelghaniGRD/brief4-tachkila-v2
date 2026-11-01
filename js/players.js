@@ -121,3 +121,14 @@ export function makePlayerCaptain(id) {
 
   savePlayers(arr);
 }
+
+export function numberTakenByAnotherPlayer(number) {
+  const arr = getPlayers();
+
+  arr.forEach((p) => {
+    console.log(`${typeof p.playerNumber} ${typeof number}`);
+    if (p.playerNumber == Number(number)) return true;
+  });
+
+  return false;
+}

@@ -9,6 +9,7 @@ import {
   updatePlayer,
   deletePlayer,
   makePlayerCaptain,
+  numberTakenByAnotherPlayer,
 } from "./players.js";
 
 import {
@@ -144,7 +145,10 @@ playerName.addEventListener("input", () => {
 });
 
 playerNumber.addEventListener("input", () => {
-  if (!numberValidation(playerNumber.value)) {
+  if (
+    !numberValidation(playerNumber.value) ||
+    numberTakenByAnotherPlayer(playerNumber.value)
+  ) {
     hasError = true;
     numberError.classList.remove("hidden");
     numberError.classList.add("block");
@@ -209,15 +213,19 @@ function createPlayerTemplate(player) {
           <div 
             class="actionButtons flex justify-between items-center mt-[10px]"
           >
-            <p class="health text-white border-white p-[5px]">${
-              playerStatus[
-                player.status[0].toUpperCase() + player.status.slice(1)
-              ].label
-            }</p>
+            <p class="health p-[5px] ${
+              player.status === playerStatus.Healthy.value
+                ? "bg-green-700 text-white"
+                : "bg-red-800 text-white"
+            }">${
+    playerStatus[player.status[0].toUpperCase() + player.status.slice(1)].label
+  }</p>
             <div
               class="actions flex justify-end items-center gap-[14px] text-white"
             >
-              <button class="captain text-[25px]">c</button>
+              <button class="captain text-[25px] ${
+                player.captain ? "text-fuchsia-600" : ""
+              }">c</button>
               <button class="edit">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
