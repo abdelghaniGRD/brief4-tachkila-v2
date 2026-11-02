@@ -15,7 +15,7 @@
       >
         <div class="flex w-20 h-20px">
           <div class="logo">
-            <img src="images/image_ec4fb5e3.jpg" alt="logo" />
+            <!-- <img src="images/image_ec4fb5e3.jpg" alt="logo" /> -->
           </div>
           <p>TACHKILA</p>
         </div>
@@ -42,6 +42,50 @@
         </div>
       </div>
     </header>
+    <main>
+      <div class="head flex justify-between items-center p-[20px]">
+        <div class="">
+          <h2 class="font-bold">Matches</h2>
+          <p class="mt-[10px]">
+            Calendrie de et résultats de la saison 2026/2027
+          </p>
+        </div>
+        <button
+          class="addNewPlayer bg-green-500 text-white p-[10px] rounded-[10px]"
+        >
+          + Ajouter un match
+        </button>
+      </div>
+      <div
+        class="search-Container flex justify-between mt-[30px] bg-slate-500 p-[20px]"
+      >
+        <input
+          placeholder="search for player"
+          class="playersSearchInput w-[60%] border-balck border-2 rounded-md"
+        />
+
+        <ul class="flex gap-1 text-white" id="playersUl">
+          <li
+            data-position="all"
+            class="p-[3px] px-4 py-2 [&.active]:bg-green-600 [&.active]:text-white active hover:"
+          >
+            Tous
+          </li>
+          <li
+            data-position="future"
+            class="p-[3px] px-4 py-2 [&.active]:bg-green-600 [&.active]:text-white"
+          >
+            A venir
+          </li>
+          <li
+            data-position="played"
+            class="p-[3px] px-4 py-2 [&.active]:bg-green-600 [&.active]:text-white"
+          >
+            joués
+          </li>
+        </ul>
+      </div>
+    </main>
     <script src="js/matchs.js"></script>
   </body>
 </html>
