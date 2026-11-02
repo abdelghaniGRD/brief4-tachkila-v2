@@ -13,7 +13,7 @@ export const benches = [
   { id: 11, name: "BU - Buteur 2" },
 ];
 
-const positions = {
+export const positions = {
   gardien: [1],
   defender: [2, 3, 4, 5],
   medium: [6, 7, 8, 9],
@@ -131,4 +131,11 @@ export function numberTakenByAnotherPlayer(number) {
   });
 
   return false;
+}
+
+export function isBanchAvailable(id) {
+  const arr = getPlayers();
+  const isOccupied = arr.some((p) => p.banch.id === id && p.banch.id !== 0);
+
+  return !isOccupied;
 }
