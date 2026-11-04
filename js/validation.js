@@ -19,3 +19,9 @@ export function playerAgeValidation(age) {
   const numValid = regex.test(age);
   return numValid;
 }
+
+export function validateOpponentName(opponentName) {
+  if (opponentName.toLowerCase() === "atlas fc") {
+    return false;
+  } else return true;
+}

@@ -516,4 +516,5 @@ function clearPlayerFromOldSlot(player) {
 
 //show saved players in the list and on the field
 displayPlayers();
+
 showPlayersOnField();

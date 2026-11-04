@@ -51,7 +51,7 @@
           </p>
         </div>
         <button
-          class="addNewPlayer bg-green-500 text-white p-[10px] rounded-[10px]"
+          class="addNewMatch bg-green-500 text-white p-[10px] rounded-[10px]"
         >
           + Ajouter un match
         </button>
@@ -60,8 +60,8 @@
         class="search-Container flex justify-between mt-[30px] bg-slate-500 p-[20px]"
       >
         <input
-          placeholder="search for player"
-          class="playersSearchInput w-[60%] border-balck border-2 rounded-md"
+          placeholder="search for match"
+          class="matchesSearchInput w-[60%] border-balck border-2 rounded-md"
         />
 
         <ul class="flex gap-1 text-white" id="playersUl">
@@ -86,6 +86,110 @@
         </ul>
       </div>
     </main>
-    <script src="js/matchs.js"></script>
+    <!-- match modal -->
+    <div class="cardParent bg-black/60 absolute w-[100%] h-[100%] top-0">
+      <div
+        class="addEditMatchCard flex flex-col gap-[20px] absolute top-[calc(50%-140px)] left-[calc(50%-150px)] bg-gray-500 text-white w-[320px] p-[10px] radius-[10px]"
+      >
+        <form id="form">
+          <div class="row1 flex justify-between">
+            <div class="title font-medium">Aouter un match</div>
+            <button
+              type="button"
+              class="close text-white-500 p-[2px] bg-rose-500 rounded-[50%] w-[30px] h-[30px] text-center"
+            >
+              x
+            </button>
+          </div>
+          <div class="row2 flex flex-col">
+            <!-- full name -->
+            <label for="opponentName" class="text-xs">Adversaire :</label>
+            <input
+              class="text-black"
+              type="text"
+              id="opponentName"
+              name="opponentName"
+            />
+            <label class="nameErrLabel hidden text-red-500 hiddden"
+              >no special characters or numbers
+            </label>
+          </div>
+
+          <div class="row3 flex flex-col">
+            <!-- date -->
+            <label for="date">Date :</label>
+            <input type="date" class="text-black" id="date" name="date" />
+
+            <label class="numberErrLabel hidden text-red-500 hiddden"
+              >number must be between 1 and 99 and not taken by another
+              player</label
+            >
+
+            <!-- time -->
+            <label for="time" class="mt-[10px]">Time :</label>
+            <input type="time" class="text-black" id="time" name="time" />
+
+            <label class="ageErrLabel hidden text-red-500 hiddden"
+              >age must be between 18 and 35</label
+            >
+
+            <!-- Place -->
+            <label for="place" class="mt-[10px]">Lieu :</label>
+            <input type="place" class="text-black" id="place" name="place" />
+
+            <!-- Place selection-->
+
+            <div class="matchPlace">
+              <p class="w-[100%]">Lieu de match</p>
+              <!-- inputs choices -->
+              <div class="flex justify-center">
+                <!-- domicile -->
+                <div
+                  class="flex gap-1 w-[50%] border rounded-md p-1 has-[:checked]:border-green-500"
+                >
+                  <input
+                    name="matchPlace"
+                    checked
+                    id="domicile"
+                    type="radio"
+                    value="domicile"
+                    class="poste appearance-none rounded-md before:content-[''] before:bg-orange-500 before:rounded-[50%] before:inline-block before:w-[6px] before:h-[6px] before:top-[50%]"
+                  />
+                  <label for="domicile">Domicile</label>
+                </div>
+                <!-- exterieur -->
+                <div
+                  class="flex gap-1 w-[50%] border rounded-md p-2 has-[:checked]:border-green-500"
+                >
+                  <input
+                    name="matchPlace"
+                    id="outside"
+                    type="radio"
+                    value="outside"
+                    class="poste appearance-none rounded-md before:content-[''] before:bg-blue-500 before:rounded-[50%] before:inline-block before:w-[6px] before:h-[6px] before:top-[50%]"
+                  />
+                  <label for="outside">Extérieur</label>
+                </div>
+              </div>
+            </div>
+
+            <label class="generalError hidden text-red-500 hiddden"
+              >All slots in that position are not empty</label
+            >
+          </div>
+
+          <!-- form -->
+          <div class="actionButtons p-2 flex justify-end gap-[10px]">
+            <button type="submit" class="add p-1 bg-green-500 rounded-md">
+              Ajouter
+            </button>
+            <button type="button" class="cancel p-1 bg-gray-900 rounded-md">
+              Annuler
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script type="module" src="js/page-matchs.js"></script>
   </body>
 </html>
