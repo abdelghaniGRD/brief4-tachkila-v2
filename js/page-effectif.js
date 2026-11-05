@@ -324,6 +324,7 @@ function save() {
       slotError.classList.remove("hidden");
       return;
     }
+
     let player = {
       id: crypto.randomUUID(),
       name: playerName,
@@ -350,13 +351,13 @@ function save() {
 
     const player = getPlayerById(playerId);
 
-    if (!availableSlot) {
-      //find if a slot in selected position is free
-      //there is no available slots
+    // if (!availableSlot) {
+    //   //find if a slot in selected position is free
+    //   //there is no available slots
 
-      slotError.classList.remove("hidden");
-      return;
-    }
+    //   slotError.classList.remove("hidden");
+    //   return;
+    // }
 
     p = {
       id: player.id,

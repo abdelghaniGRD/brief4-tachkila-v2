@@ -64,30 +64,132 @@
           class="matchesSearchInput w-[60%] border-balck border-2 rounded-md"
         />
 
-        <ul class="flex gap-1 text-white" id="playersUl">
+        <ul class="flex gap-1 text-white" id="matchesUL">
           <li
-            data-position="all"
+            data-time="all"
             class="p-[3px] px-4 py-2 [&.active]:bg-green-600 [&.active]:text-white active hover:"
           >
             Tous
           </li>
           <li
-            data-position="future"
+            data-time="future"
             class="p-[3px] px-4 py-2 [&.active]:bg-green-600 [&.active]:text-white"
           >
             A venir
           </li>
           <li
-            data-position="played"
+            data-time="played"
             class="p-[3px] px-4 py-2 [&.active]:bg-green-600 [&.active]:text-white"
           >
             joués
           </li>
         </ul>
       </div>
+      <div
+        class="mt-[20px] bg-slate-700 flex p-[20px] flex-wrap gap-[20px]"
+        id="matchesList"
+      >
+        <div
+          class="match p-[20px] flex border-black border-[1px] w-fit bg-slate-600 w-full"
+        >
+          <div
+            class="col1 bg-slate-900 w-[90px] rounded-[10px] text-white text-center mr-[20px] p-[10px]"
+          >
+            <p class="weekDay text-gray-400 font-semibold">MAR</p>
+            <p class="day font-bold text-[30px]">27</p>
+            <p class="month text-gray-200">OCT</p>
+            <p class="time text-gray-500">15:00</p>
+          </div>
+          <div class="col2 flex flex-col align-center justify-around">
+            <p
+              class="place bg-green-300 p-[5px] rounded-[10px] text-green-700 font-bold"
+            >
+              Domicile
+            </p>
+            <p class="vs font-bold text-white uppercase">ATLAC FC VS SAFI</p>
+            <p
+              class="location before:content-['📍'] text-gray-300 font-bold text-[20px] uppercase"
+            >
+              Safi
+            </p>
+          </div>
+          <div class="col3 flex-end radius-[10px]"></div>
+          <div
+            class="actionButtons flex justify-between items-center mt-[10px] ml-auto"
+          >
+            <div
+              class="actions flex justify-end items-center gap-[14px] text-white"
+            >
+              <div class="results-b hidden">
+                <button
+                  class="bg-blue-700 p-[9px] rounded-[10px] font-semibold"
+                >
+                  Saisir le score
+                </button>
+                <button class="bg-slate-700 p-[7px] rounded-[10px] mt-[10px]">
+                  Voir la composition
+                </button>
+              </div>
+              <div class="results-a">
+                <div class="matchResult text-[30px] font-bold">7-5</div>
+
+                <div
+                  class="victoire text-green-700 bg-green-300 p-[5px] rounded-[10px] font-bold"
+                >
+                  victoire
+                </div>
+                <button class="modifyScore text-gray-300 mt-[10px]">
+                  Modifier le score
+                </button>
+              </div>
+              <button class="edit">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-square-pen preview-icon"
+                >
+                  <path
+                    d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  />
+                  <path
+                    d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+                  />
+                </svg>
+              </button>
+              <button class="delete">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-trash preview-icon"
+                >
+                  <path d="M10 11v6" />
+                  <path d="M14 11v6" />
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                  <path d="M3 6h18" />
+                  <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
     <!-- match modal -->
-    <div class="cardParent bg-black/60 absolute w-[100%] h-[100%] top-0">
+    <div class="cardParent hidden bg-black/60 absolute w-[100%] h-[100%] top-0">
       <div
         class="addEditMatchCard flex flex-col gap-[20px] absolute top-[calc(50%-140px)] left-[calc(50%-150px)] bg-gray-500 text-white w-[320px] p-[10px] radius-[10px]"
       >

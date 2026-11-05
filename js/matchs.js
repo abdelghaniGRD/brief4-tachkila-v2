@@ -2,10 +2,30 @@ import { validateOpponentName } from "./validation.js";
 
 const key = "matchesKey";
 
-export function getMatches() {
-  const rs = localStorage.getItem(key);
+export function getMatches(search = "", filterBy = "all") {
+  const macthes = localStorage.getItem(key);
 
-  return rs ? JSON.parse(rs) : [];
+  if (macthes) {
+    let rs = JSON.parse(macthes);
+    console.log(typeof rs[0].date);
+    if (filterBy === "all") {
+      let filtered = rs.filter((m) => m.opponentName.includes(search));
+
+      return filtered;
+    } else if (filterBy === "future") {
+      let filtered = rs.filter(
+        (m) =>
+          Date.parse(m.date) >= Date.now() && m.opponentName.includes(search)
+      );
+      return filtered;
+    } else if (filterBy === "played") {
+      let filtered = rs.filter(
+        (m) =>
+          Date.parse(m.date) <= Date.now() && m.opponentName.includes(search)
+      );
+      return filtered;
+    }
+  }
 }
 
 let matches = getMatches();

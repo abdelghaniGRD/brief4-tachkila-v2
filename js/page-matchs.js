@@ -30,7 +30,24 @@ closeBtns.forEach((closeBtn) => {
   closeBtn.addEventListener("click", handleModalClose);
 });
 
-const matchesParentDiv = document.querySelector("");
+const list = document.querySelector("#matchesUL");
+const search = document.querySelector(".matchesSearchInput");
+const matchesParentDiv = document.querySelector("#matchesList");
+
+list.addEventListener("click", (e) => {
+  const listItem = e.target.closest("li");
+
+  if (listItem && list.contains(listItem)) {
+    const currentActive = list.querySelector("li.active");
+    if (currentActive) {
+      currentActive.classList.remove("active");
+    }
+    listItem.classList.add("active");
+  }
+
+  loadMatches();
+});
+
 //submit form handler
 const btnAddNewMatch = document
   .querySelector("#form")
@@ -50,42 +67,87 @@ function handleModalClose() {
   document.querySelector("#place").value = "";
 }
 
-function createMatchTemplate(player) {
-  return `<div data-id=${player.id} class="player p-[20px] ${
-    player.captain ? "border-fuchsia-600" : "border-black"
-  } border-[3px] w-fit bg-slate-600"
+function createMatchTemplate(match) {
+  const winned = match.butsAtlas > match.butsAdversaire;
+  return `<div
+          class="match p-[20px] flex border-black border-[1px] w-fit bg-slate-600 w-full"
         >
           <div
-            class="information flex flex-wrap gap-[5px] justify-between items-center"
+            class="col1 bg-slate-900 w-[90px] rounded-[10px] text-white text-center mr-[20px] p-[10px]"
           >
-            <p
-              class="number p-[5px] rounded-[50%] border-white border-[1px] text-white"
-            >
-              ${player.playerNumber}
-            </p>
-            <p class="name text-white font-medium">${player.name}</p>
-            <p class="position font-medium text-white">${
-              benches[player.banch.id].name
-            }</p>
-            <p class="age w-full text-gray-400">${player.age} ans</p>
-          </div>
+            <p class="weekDay text-gray-400 font-semibold">${new Date(
+              match.date
+            ).toLocaleString("default", { weekday: "short" })}</p>
 
-          <div 
-            class="actionButtons flex justify-between items-center mt-[10px]"
+            <p class="day font-bold text-[30px]">${new Date(
+              match.date
+            ).getDay()}</p>
+            <p class="month text-gray-200">${new Date(
+              match.date
+            ).toLocaleString("default", { month: "short" })}</p>
+
+            <p class="time text-gray-500">${match.time}</p>
+
+          </div>
+          <div class="col2 flex flex-col align-center justify-around">
+            <p
+              class="place 
+              ${
+                match.residence
+                  ? "bg-green-300 text-green-700"
+                  : "bg-red-300 text-red-700"
+              }  p-[5px] rounded-[10px] font-bold"
+            >
+              ${match.residence ? "Domicile" : "Extérieur"}
+            </p>
+            <p class="vs font-bold text-white uppercase">ATLAC FC VS ${
+              match.opponentName
+            }</p>
+            <p
+              class="location before:content-['📍'] text-gray-300 font-bold text-[20px] uppercase"
+            >
+              ${match.place}
+            </p>
+          </div>
+          <div class="col3 flex-end radius-[10px]"></div>
+          <div
+            class="actionButtons flex justify-between items-center mt-[10px] ml-auto"
           >
-            <p class="health p-[5px] ${
-              player.status === playerStatus.Healthy.value
-                ? "bg-green-700 text-white"
-                : "bg-red-800 text-white"
-            }">${
-    playerStatus[player.status[0].toUpperCase() + player.status.slice(1)].label
-  }</p>
             <div
               class="actions flex justify-end items-center gap-[14px] text-white"
             >
-              <button class="captain text-[25px] ${
-                player.captain ? "text-fuchsia-600" : ""
-              }">c</button>
+              <div class="results-b hidden">
+                <button
+                  class="bg-blue-700 p-[9px] rounded-[10px] font-semibold"
+                >
+                  Saisir le score
+                </button>
+                <button class="bg-slate-700 p-[7px] rounded-[10px] mt-[10px]">
+                  Voir la composition
+                </button>
+              </div>
+              <div class="results-a">
+                <div class="matchResult text-[30px] font-bold">${
+                  match.butsAtlas
+                }-${match.butsAdversaire}</div>
+
+                <div
+                  class="victoire text-green-700 bg-green-300 p-[5px] rounded-[10px] font-bold"
+                >
+                  ${
+                    match.butsAtlas > match.butsAdversaire
+                      ? "victoire"
+                      : match.butsAtlas < match.butsAdversaire
+                      ? "Défaite"
+                      : match.butsAtlas === match.butsAdversaire
+                      ? "null"
+                      : ""
+                  }
+                </div>
+                <button class="modifyScore text-gray-300 mt-[10px]">
+                  Modifier le score
+                </button>
+              </div>
               <button class="edit">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -134,20 +196,18 @@ function createMatchTemplate(player) {
 
 function loadMatches() {
   matchesParentDiv.innerHTML = "";
+
   const currentActive = list.querySelector("li.active");
-  const filterBy = currentActive.dataset.position;
+  const filterBy = currentActive.dataset.time;
 
-  let players = getPlayers(search.value, filterBy);
+  let matches = getMatches(search.value, filterBy);
 
-  if (players.length <= 0) return;
-
-  players.forEach((player) => {
-    const htmlString = createPlayerTemplate(player);
-
+  if (matches.length <= 0) return;
+  matches.forEach((match) => {
+    const htmlString = createMatchTemplate(match);
     const template = document.createElement("template");
     template.innerHTML = htmlString.trim();
-
-    playersParentDiv.append(template.content);
+    matchesParentDiv.append(template.content);
   });
 }
 
@@ -255,3 +315,4 @@ function save() {
   //   handleModalClose();
   // }
 }
+loadMatches();
