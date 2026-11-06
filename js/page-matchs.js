@@ -17,6 +17,7 @@ const Status = Object.freeze({
 let currentStatus = Status.addNewMode;
 
 const btnOpenModal = document.querySelector(".addNewMatch");
+const btnModifyScoreModal = document.querySelector(".modifyScore");
 
 btnOpenModal.addEventListener("click", () => {
   const modal = document.querySelector(".cardParent");
@@ -24,6 +25,21 @@ btnOpenModal.addEventListener("click", () => {
   modal.classList.add("flex");
 });
 
+//delete edit match card buttons
+const matchesList = document.querySelector("#matchesList");
+
+matchesList.addEventListener("click", (e) => {
+  const editBtn = e.target.closest(".edit");
+  const deleteBtn = e.target.closest(".delete");
+
+  if (editBtn) {
+    if (editBtn.closest(".match")) {
+      const matchDiv = e.target.closest(".match");
+      const matchId = matchDiv.dataset.id;
+      console.log(matchId);
+    }
+  }
+});
 //close the modal window
 const closeBtns = document.querySelectorAll(".close, .cancel");
 closeBtns.forEach((closeBtn) => {
@@ -69,7 +85,7 @@ function handleModalClose() {
 
 function createMatchTemplate(match) {
   const winned = match.butsAtlas > match.butsAdversaire;
-  return `<div
+  return `<div data-id=${match.id} 
           class="match p-[20px] flex border-black border-[1px] w-fit bg-slate-600 w-full"
         >
           <div
@@ -315,4 +331,5 @@ function save() {
   //   handleModalClose();
   // }
 }
+
 loadMatches();

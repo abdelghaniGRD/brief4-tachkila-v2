@@ -1,3 +1,9 @@
+# Resources
+
+- github: https://github.com/abdelghaniGRD/brief4-tachkila-v2
+- planification: https://gouroudabdelghani.atlassian.net/jira/software/projects/TV/boards/2?filter=&groupBy=none&atlOrigin=eyJpIjoiZjE3NTNjZjQ5MzQ0NDYxNzlhMGJkYmNlN2ZkNWM2NzYiLCJwIjoiaiJ9
+  -vercel: https://tachkila-v2-app.vercel.app/
+
 # Tachkila
 
 Tachkila is a lightweight football club management interface for Atlas FC. It brings the player roster and starting lineup together, with a separate page prepared for the 2026/2027 match season.
